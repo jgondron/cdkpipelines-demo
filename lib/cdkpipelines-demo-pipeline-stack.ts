@@ -22,9 +22,9 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
       sourceAction: new codepipeline_actions.GitHubSourceAction({
         actionName: 'GitHub',
         output: sourceArtifact,
-        oauthToken: SecretValue.secretsManager('github-token'),
-        owner: 'OWNER',
-        repo: 'REPO',
+        oauthToken: SecretValue.secretsManager('/all/github/ndlib-git', { jsonField: 'oauth' }),
+        owner: 'jgondron',
+        repo: 'cdkpipelines-demo',
         trigger: codepipeline_actions.GitHubTrigger.POLL,
       }),
 
