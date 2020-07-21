@@ -58,6 +58,5 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
         'curl -Ssf $ENDPOINT_URL',
       ],
     }));
-    pipeline.addApplicationStage(preprod);
   }
 }
