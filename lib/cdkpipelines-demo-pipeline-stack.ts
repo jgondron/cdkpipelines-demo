@@ -40,8 +40,6 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
        }),
     });
 
-    // This is where we add the application stages
-
     const preprod = new CdkpipelinesDemoStage(this, 'PreProd', {
       env: { account: '333680067100', region: 'us-east-2' },
     });
@@ -52,6 +50,23 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
         // Get the stack Output from the Stage and make it available in
         // the shell script as $ENDPOINT_URL.
         ENDPOINT_URL: pipeline.stackOutput(preprod.urlOutput),
+      },
+      commands: [
+        // Use 'curl' to GET the given URL and fail if it returns an error
+        'curl -Ssf $ENDPOINT_URL',
+      ],
+    }));
+
+    const prod = new CdkpipelinesDemoStage(this, 'Prod', {
+      env: { account: '333680067100', region: 'us-east-2' },
+    });
+    const prodStage = pipeline.addApplicationStage(prod);
+    prodStage.addActions(new ShellScriptAction({
+      actionName: 'TestService',
+      useOutputs: {
+        // Get the stack Output from the Stage and make it available in
+        // the shell script as $ENDPOINT_URL.
+        ENDPOINT_URL: pipeline.stackOutput(prod.urlOutput),
       },
       commands: [
         // Use 'curl' to GET the given URL and fail if it returns an error
