@@ -3,6 +3,10 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import { CfnOutput, Construct, Stack, StackProps } from '@aws-cdk/core';
 import * as path from 'path';
 
+export interface CdkpipelinesDemoStackProps extends StackProps {
+  readonly backendUrl: string;
+}
+
 /**
  * A stack for our simple Lambda-powered web service
  */
@@ -12,7 +16,7 @@ export class CdkpipelinesDemoStack extends Stack {
    */
   public readonly urlOutput: CfnOutput;
  
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: CdkpipelinesDemoStackProps) {
     super(scope, id, props);
 
     // The Lambda function that contains the functionality
@@ -20,6 +24,7 @@ export class CdkpipelinesDemoStack extends Stack {
       runtime: lambda.Runtime.NODEJS_12_X,
       handler: 'handler.handler',
       code: lambda.Code.fromAsset(path.resolve(__dirname, 'lambda')),
+      environment: { BACKEND_URL: props.backendUrl },
     });
 
     // An API Gateway to make the Lambda web-accessible

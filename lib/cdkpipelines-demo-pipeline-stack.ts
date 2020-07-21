@@ -42,6 +42,8 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
 
     const preprod = new CdkpipelinesDemoStage(this, 'PreProd', {
       env: { account: '333680067100', region: 'us-east-2' },
+    }, {
+      backendUrl: 'https://preprod.domain.com',
     });
     const preprodStage = pipeline.addApplicationStage(preprod);
     preprodStage.addActions(new ShellScriptAction({
@@ -52,6 +54,7 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
         ENDPOINT_URL: pipeline.stackOutput(preprod.urlOutput),
       },
       commands: [
+        'echo Testing endpoint $ENDPOINT_URL',
         // Use 'curl' to GET the given URL and fail if it returns an error
         'curl -Ssf $ENDPOINT_URL',
       ],
@@ -59,6 +62,8 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
 
     const prod = new CdkpipelinesDemoStage(this, 'Prod', {
       env: { account: '333680067100', region: 'us-east-2' },
+    }, {
+      backendUrl: 'https://prod.domain.com',
     });
     const prodStage = pipeline.addApplicationStage(prod);
     prodStage.addActions(new ShellScriptAction({
@@ -69,6 +74,7 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
         ENDPOINT_URL: pipeline.stackOutput(prod.urlOutput),
       },
       commands: [
+        'echo Testing endpoint $ENDPOINT_URL',
         // Use 'curl' to GET the given URL and fail if it returns an error
         'curl -Ssf $ENDPOINT_URL',
       ],
