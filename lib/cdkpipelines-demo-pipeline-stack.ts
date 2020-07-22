@@ -41,7 +41,7 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
     });
 
     const preprod = new CdkpipelinesDemoStage(this, 'PreProd', {
-      env: { account: '333680067100', region: 'us-east-2' },
+      // env: { account: '333680067100', region: 'us-east-2' },
     }, {
       backendUrl: 'https://preprod.domain.com',
     });
@@ -61,7 +61,7 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
     }));
 
     const prod = new CdkpipelinesDemoStage(this, 'Prod', {
-      env: { account: '333680067100', region: 'us-east-2' },
+      // env: { account: '333680067100', region: 'us-east-2' },
     }, {
       backendUrl: 'https://prod.domain.com',
     });
